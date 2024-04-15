@@ -253,6 +253,7 @@ func (w *responseWriter) WriteHeader(statusCode int) {
 // been called.
 func (w *responseWriter) Write(data []byte) (int, error) {
 	n, err := w.ResponseWriter.Write(data)
+	w.resp.Headers.Add("Response", string(data[:]))
 	if w.resp.StatusCode == 0 {
 		w.resp.StatusCode = http.StatusOK
 	}
