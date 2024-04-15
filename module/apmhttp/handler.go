@@ -18,6 +18,7 @@
 package apmhttp // import "go.elastic.co/apm/module/apmhttp/v2"
 
 import (
+	"bytes"
 	"context"
 	"io"
 	"net/http"
@@ -195,8 +196,11 @@ func WrapResponseWriter(w http.ResponseWriter) (http.ResponseWriter, *Response) 
 		}
 		if rf != nil {
 			rwhprf := responseWriterHijackerPusherReaderFrom{rwhp, rf}
+			rwhprf.resp.Body = rw.Body
 			return &rwhprf, &rwhprf.resp
 		}
+		rwhp.resp.Body = rw.Body
+
 		return &rwhp, &rwhp.resp
 	case h != nil:
 		rwh := responseWriterHijacker{
@@ -205,8 +209,12 @@ func WrapResponseWriter(w http.ResponseWriter) (http.ResponseWriter, *Response) 
 		}
 		if rf != nil {
 			rwhrf := responseWriterHijackerReaderFrom{rwh, rf}
+			rwhrf.resp.Body = rw.Body
+
 			return &rwhrf, &rwhrf.resp
 		}
+		rwh.resp.Body = rw.Body
+
 		return &rwh, &rwh.resp
 	case p != nil:
 		rwp := responseWriterPusher{
@@ -215,16 +223,25 @@ func WrapResponseWriter(w http.ResponseWriter) (http.ResponseWriter, *Response) 
 		}
 		if rf != nil {
 			rwprf := responseWriterPusherReaderFrom{rwp, rf}
+			rwprf.resp.Body = rw.Body
+
 			return &rwprf, &rwprf.resp
 		}
+		rwp.resp.Body = rw.Body
+
 		return &rwp, &rwp.resp
 	default:
 		if rf != nil {
 			rwrf := responseWriterReaderFrom{rw, rf}
+			rwrf.resp.Body = rw.Body
+
 			return &rwrf, &rwrf.resp
 		}
+		rw.resp.Body = rw.Body
+
 		return &rw, &rw.resp
 	}
+
 }
 
 // Response records details of the HTTP response.
@@ -234,10 +251,13 @@ type Response struct {
 
 	// Headers holds the headers set in the ResponseWriter.
 	Headers http.Header
+
+	Body *bytes.Buffer
 }
 
 type responseWriter struct {
 	http.ResponseWriter
+	Body *bytes.Buffer
 	resp Response
 }
 
@@ -253,6 +273,7 @@ func (w *responseWriter) WriteHeader(statusCode int) {
 // been called.
 func (w *responseWriter) Write(data []byte) (int, error) {
 	n, err := w.ResponseWriter.Write(data)
+	w.Body.Write(data)
 	if w.resp.StatusCode == 0 {
 		w.resp.StatusCode = http.StatusOK
 	}
