@@ -180,6 +180,7 @@ func WrapResponseWriter(w http.ResponseWriter) (http.ResponseWriter, *Response) 
 		ResponseWriter: w,
 		resp: Response{
 			Headers: w.Header(),
+			Body:    &bytes.Buffer{},
 		},
 	}
 
