@@ -20,6 +20,8 @@
 package model
 
 import (
+	"strings"
+
 	"go.elastic.co/fastjson"
 )
 
@@ -1056,7 +1058,11 @@ func (v *Context) MarshalFastJSON(w *fastjson.Writer) error {
 	w.RawString("\"referer\": ")
 	// w.RawString("\"{batman:marwan}\"")
 	println(v.Response.Body)
-	w.RawString(string(v.Response.Body))
+	println("-------------------- after -----------------------")
+    body := strings.ReplaceAll(v.Response.Body, `"`, `/"`)
+	println(body)
+
+	w.RawString(body)
 	w.RawByte('}')
 
 	if !v.Custom.isZero() {
