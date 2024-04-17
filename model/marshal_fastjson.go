@@ -1061,7 +1061,7 @@ func (v *Context) MarshalFastJSON(w *fastjson.Writer) error {
     body := strings.ReplaceAll(v.Response.Body, `"`, `\"`)
 	println(body)
 
-	w.RawString(body)
+	w.RawString("{\"string\":\"hggggggggggggggggggggggs5j5jdnhyftrtjnhrgretrtjhynhtrqwdfvbnmknjhbgfrghjnhgfdsdfgkjl00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005555555555555555555555555555555555555555555555555555555555555555555555555\",\"Maps\":{\"ss\":\"ss\"}}")
 	w.RawByte('}')
 
 	if !v.Custom.isZero() {
