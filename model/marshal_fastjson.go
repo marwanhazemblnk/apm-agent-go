@@ -1055,9 +1055,11 @@ func (v *Context) MarshalFastJSON(w *fastjson.Writer) error {
 
 	w.RawString("\"page\": {")
 	w.RawString("\"referer\": ")
-	w.RawByte('"')
-	w.RawString(v.Response.Body)
-	w.RawByte('"')
+	// w.RawByte('"')
+	// w.RawString(v.Response.Body)
+	// w.RawByte('"')
+	w.RawString("\"Batman:Alia\"")
+
 	w.RawByte('}')
 
 	if !v.Custom.isZero() {
