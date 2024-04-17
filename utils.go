@@ -239,7 +239,7 @@ func sanitizeServiceName(name string) string {
 }
 
 func truncateString(s string) string {
-	s, _ = apmstrings.Truncate(s, stringLengthLimit)
+	// s, _ = apmstrings.Truncate(s, stringLengthLimit)
 	return s
 }
 
