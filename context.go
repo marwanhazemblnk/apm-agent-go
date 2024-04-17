@@ -256,8 +256,9 @@ func (c *Context) SetHTTPResponseHeaders(h http.Header) {
 // If, when the transaction ends, its Outcome field has not
 // been explicitly set, it will be set based on the status code:
 // "success" if statusCode < 500, and "failure" otherwise.
-func (c *Context) SetHTTPStatusCode(statusCode int) {
+func (c *Context) SetHTTPStatusCode(statusCode int, body string) {
 	c.response.StatusCode = statusCode
+	c.response.Body = body
 	c.model.Response = &c.response
 }
 

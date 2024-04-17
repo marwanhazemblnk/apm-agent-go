@@ -819,6 +819,9 @@ type Response struct {
 	// Headers holds the response headers.
 	Headers Headers `json:"headers,omitempty"`
 
+	// Body holds the response body.
+	Body string `json:"body,omitempty"`
+
 	// HeadersSent indicates whether or not headers were sent
 	// to the client.
 	HeadersSent *bool `json:"headers_sent,omitempty"`

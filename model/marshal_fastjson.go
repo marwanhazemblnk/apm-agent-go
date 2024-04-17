@@ -1579,6 +1579,17 @@ func (v *Response) MarshalFastJSON(w *fastjson.Writer) error {
 		}
 		w.Int64(int64(v.StatusCode))
 	}
+
+	if v.Body != "" {
+		const prefix = ",\"body\":"
+		if first {
+			first = false
+			w.RawString(prefix[1:])
+		} else {
+			w.RawString(prefix)
+		}
+		w.String(v.Body)
+	}
 	w.RawByte('}')
 	return firstErr
 }

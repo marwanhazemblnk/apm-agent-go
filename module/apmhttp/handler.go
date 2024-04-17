@@ -161,9 +161,8 @@ func SetTransactionContext(tx *apm.Transaction, req *http.Request, resp *Respons
 func SetContext(ctx *apm.Context, req *http.Request, resp *Response, body *apm.BodyCapturer) {
 	ctx.SetHTTPRequest(req)
 	ctx.SetHTTPRequestBody(body)
-	ctx.SetHTTPStatusCode(resp.StatusCode)
+	ctx.SetHTTPStatusCode(resp.StatusCode, string(resp.body))
 	ctx.SetHTTPResponseHeaders(resp.Headers)
-	ctx.SetUsername(string(resp.body))
 	ctx.SetLabel("response_body", string(resp.body))
 }
 

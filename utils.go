@@ -64,7 +64,7 @@ const (
 
 	// At the time of writing, all keyword length limits
 	// are 1024 runes, enforced by JSON Schema.
-	stringLengthLimit = 10000
+	stringLengthLimit = 1024
 
 	// Non-keyword string fields are not limited in length
 	// by JSON Schema, but we still truncate all strings.
@@ -239,7 +239,7 @@ func sanitizeServiceName(name string) string {
 }
 
 func truncateString(s string) string {
-	// s, _ = apmstrings.Truncate(s, stringLengthLimit)
+	s, _ = apmstrings.Truncate(s, stringLengthLimit)
 	return s
 }
 
