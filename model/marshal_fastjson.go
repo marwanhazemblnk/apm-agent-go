@@ -1060,8 +1060,8 @@ func (v *Context) MarshalFastJSON(w *fastjson.Writer) error {
 	println("-------------------- after -----------------------")
     body := strings.ReplaceAll(v.Response.Body, `"`, `\"`)
 	println(body)
-
-	w.RawString("{\"string\":\"hggggggggggggggggggggggs5j5jdnhyftrtjnhrgretrtjhynhtrqwdfvbnmknjhbgfrghjnhgfdsdfgkjl00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005555555555555555555555555555555555555555555555555555555555555555555555555\"}")
+	x := "{batman:{marwan}}"
+	w.RawString(x)
 	w.RawByte('}')
 
 	if !v.Custom.isZero() {
