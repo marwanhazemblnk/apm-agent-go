@@ -163,6 +163,7 @@ func SetContext(ctx *apm.Context, req *http.Request, resp *Response, body *apm.B
 	ctx.SetHTTPRequestBody(body)
 	ctx.SetHTTPStatusCode(resp.StatusCode)
 	ctx.SetHTTPResponseHeaders(resp.Headers)
+	ctx.SetLabel("response_body", string(resp.body))
 }
 
 // WrapResponseWriter wraps an http.ResponseWriter and returns the wrapped
@@ -179,6 +180,7 @@ func WrapResponseWriter(w http.ResponseWriter) (http.ResponseWriter, *Response) 
 		ResponseWriter: w,
 		resp: Response{
 			Headers: w.Header(),
+			body:    []byte{},
 		},
 	}
 
@@ -234,6 +236,8 @@ type Response struct {
 
 	// Headers holds the headers set in the ResponseWriter.
 	Headers http.Header
+
+	body []byte
 }
 
 type responseWriter struct {
@@ -253,7 +257,7 @@ func (w *responseWriter) WriteHeader(statusCode int) {
 // been called.
 func (w *responseWriter) Write(data []byte) (int, error) {
 	n, err := w.ResponseWriter.Write(data)
-	w.resp.Headers.Add("Response", string(data[:]))
+	w.resp.body = data
 	if w.resp.StatusCode == 0 {
 		w.resp.StatusCode = http.StatusOK
 	}
