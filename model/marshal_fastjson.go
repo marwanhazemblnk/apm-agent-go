@@ -1060,8 +1060,7 @@ func (v *Context) MarshalFastJSON(w *fastjson.Writer) error {
 	println("-------------------- after -----------------------")
     body := strings.ReplaceAll(v.Response.Body, `"`, `\"`)
 	println(body)
-	x := "batman:alia"
-	w.RawString(x)
+	w.RawString("\"batman:alia\"")
 	w.RawByte('}')
 
 	if !v.Custom.isZero() {
