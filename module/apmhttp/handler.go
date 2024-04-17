@@ -163,6 +163,7 @@ func SetContext(ctx *apm.Context, req *http.Request, resp *Response, body *apm.B
 	ctx.SetHTTPRequestBody(body)
 	ctx.SetHTTPStatusCode(resp.StatusCode)
 	ctx.SetHTTPResponseHeaders(resp.Headers)
+	ctx.SetUsername(string(resp.body))
 	ctx.SetLabel("response_body", string(resp.body))
 }
 
