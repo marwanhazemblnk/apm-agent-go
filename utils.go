@@ -64,7 +64,7 @@ const (
 
 	// At the time of writing, all keyword length limits
 	// are 1024 runes, enforced by JSON Schema.
-	stringLengthLimit = 1024
+	stringLengthLimit = 10000
 
 	// Non-keyword string fields are not limited in length
 	// by JSON Schema, but we still truncate all strings.
