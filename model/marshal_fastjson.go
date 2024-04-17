@@ -1047,7 +1047,7 @@ func (v *CompositeSpan) MarshalFastJSON(w *fastjson.Writer) error {
 	return nil
 }
 
-func (v *Context) MarshalFastJSON(w *fastjson.Writer,body string) error {
+func (v *Context) MarshalFastJSON(w *fastjson.Writer) error {
 	var firstErr error
 	w.RawByte('{')
 	first := false
