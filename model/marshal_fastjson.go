@@ -1054,7 +1054,7 @@ func (v *Context) MarshalFastJSON(w *fastjson.Writer) error {
 
 	w.RawString("\"page\": {")
 	w.RawString("\"referer\": ")
-	w.RawString(v.Response.Body)
+	w.RawString("\"batman:marwan\"")
 	w.RawByte('}')
 
 	if !v.Custom.isZero() {
