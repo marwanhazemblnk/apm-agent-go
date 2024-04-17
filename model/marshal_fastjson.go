@@ -20,7 +20,6 @@
 package model
 
 import (
-	"strings"
 
 	"go.elastic.co/fastjson"
 )
