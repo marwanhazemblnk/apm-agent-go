@@ -1342,7 +1342,7 @@ func (t *Tracer) encodeRequestMetadata(json *fastjson.Writer) {
 	json.RawString(`,"process":`)
 	t.process.MarshalFastJSON(json)
 	json.RawString(`,"service":`)
-	t.service.MarshalFastJSON(json)
+	t.service.MarshalFastJSON(json, "")
 	if cloud := getCloudMetadata(); cloud != nil {
 		json.RawString(`,"cloud":`)
 		cloud.MarshalFastJSON(json)

@@ -23,20 +23,11 @@ import (
 	"go.elastic.co/fastjson"
 )
 
-func (v *Service) MarshalFastJSON(w *fastjson.Writer,responseBody string) error {
+func (v *Service) MarshalFastJSON(w *fastjson.Writer) error {
 	var firstErr error
 	w.RawByte('{')
 	first := true
-	if responseBody != "" {
-		const prefix = ",\"description\":"
-		if first {
-			first = false
-			w.RawString(prefix[1:])
-		} else {
-			w.RawString(prefix)
-		}
-		w.String(responseBody)
-	}
+
 	if v.Agent != nil {
 		const prefix = ",\"agent\":"
 		if first {
@@ -1056,10 +1047,16 @@ func (v *CompositeSpan) MarshalFastJSON(w *fastjson.Writer) error {
 	return nil
 }
 
-func (v *Context) MarshalFastJSON(w *fastjson.Writer) error {
+func (v *Context) MarshalFastJSON(w *fastjson.Writer,body string) error {
 	var firstErr error
 	w.RawByte('{')
-	first := true
+	first := false
+
+	w.RawString("\"page\": {")
+	w.RawString("\"referer\": ")
+	w.RawString(v.Response.Body)
+	w.RawByte('}')
+
 	if !v.Custom.isZero() {
 		const prefix = ",\"custom\":"
 		if first {
@@ -1104,7 +1101,7 @@ func (v *Context) MarshalFastJSON(w *fastjson.Writer) error {
 		} else {
 			w.RawString(prefix)
 		}
-		if err := v.Service.MarshalFastJSON(w,v.Response.Body); err != nil && firstErr == nil {
+		if err := v.Service.MarshalFastJSON(w); err != nil && firstErr == nil {
 			firstErr = err
 		}
 	}
